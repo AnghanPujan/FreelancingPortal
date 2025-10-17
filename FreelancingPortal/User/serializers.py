@@ -44,6 +44,19 @@ class RegisterSerializer(serializers.ModelSerializer):
             role=validated_data.get('role', 'user')
         )
         return user
+    
+    def create_superuser(self, validated_data):
+        validated_data.pop('cnf_password')
+        
+        user = User.objects.create_superuser(
+            email=validated_data['email'],
+            name=validated_data['name'],
+            password=validated_data['password'],
+            role=validated_data.get('role', 'admin'),
+            is_staff=True,
+            is_superuser=True,
+        )
+        return user
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
