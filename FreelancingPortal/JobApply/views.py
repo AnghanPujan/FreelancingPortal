@@ -9,6 +9,16 @@ from rest_framework import status
 
 
 # create your views here.
+
+class FreelancerJobApplicationsView(APIView):
+    permission_classes = [IsFreelancer, IsAuthenticated]
+
+    def get(self, request, freelancerId):
+        print("Freelancer ID:", freelancerId)
+        applications = JobApplication.objects.filter(freelancer_id=freelancerId)
+        serializer = JobApplicationSerializer(applications, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 class JobApplicationCreateView(APIView):
     permission_classes = [IsFreelancer, IsAuthenticated]
 

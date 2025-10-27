@@ -12,5 +12,6 @@ from . views import (
 
 urlpatterns = [
     path('', JobApplicationCreateView.as_view(), name='job-application-create'),
+    path('application/freelancers/<int:freelancerId>/', FreelancerJobApplicationsView.as_view())
 ]
 
