@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "Freelancer",
     "Enterprise",
     "Jobs",
+    "JobApply",
     "Reviews"
 ]
 
