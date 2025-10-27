@@ -1,6 +1,21 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Avg
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+class Reviews(models.Model):
+    freelancerId = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='freelancer_reviews'
+    )
+    rating = models.PositiveIntegerField(
+    validators=[MinValueValidator(1), MaxValueValidator(5)]
+)
+    contractId = models.CharField(max_length=100)
+    review = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Enterprise(models.Model):
     user = models.OneToOneField(
@@ -19,6 +34,11 @@ class Enterprise(models.Model):
     vat_or_gst_id = models.CharField(max_length=50, blank=True, null=True)
     social_media_profile = models.URLField(blank=True, null=True)
     binanceId = models.CharField(max_length=100, blank=True, null=True)
+    reviews = models.ManyToManyField(
+        'Reviews',
+        related_name='enterprise_reviews',
+        blank=True
+    )
     previous_projects = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
