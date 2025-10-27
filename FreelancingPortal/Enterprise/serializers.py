@@ -7,7 +7,7 @@ class EnterpriseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enterprise
         fields = '__all__'
-        read_only_fields = ('user',)
+        read_only_fields = ('userId',)
 
 class EnterpriseLogoSerializer(serializers.ModelSerializer):
     class Meta:

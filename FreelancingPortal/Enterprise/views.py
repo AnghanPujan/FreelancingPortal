@@ -19,14 +19,14 @@ class EnterpriseListCreateView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        if Enterprise.objects.filter(user=request.user).exists():
+        if Enterprise.objects.filter(pk=request.user).exists():
             return Response(
                 {"error": "Profile already exists for this user."},
                 status=status.HTTP_400_BAD_REQUEST
             )
         serializer = EnterpriseSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save(pk=request.user.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -37,12 +37,12 @@ class EnterpriseDetailView(APIView):
         return [AllowAny()]
 
     def get(self, request, user_id):
-        enterprise = get_object_or_404(Enterprise, user=user_id)
+        enterprise = get_object_or_404(Enterprise, pk=user_id)
         serializer = EnterpriseSerializer(enterprise)
         return Response(serializer.data)
 
     def put(self, request, user_id):
-        enterprise = get_object_or_404(Enterprise, user=user_id)
+        enterprise = get_object_or_404(Enterprise, pk=user_id)
         if enterprise.user != request.user and not request.user.is_staff:
             return Response(
                 {"error": "You do not have permission to edit this profile."},
