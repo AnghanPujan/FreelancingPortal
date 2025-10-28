@@ -1,0 +1,21 @@
+{% extends "admin/login.html" %}
+{% load static %}
+
+{% block extrastyle %}
+  {#  {{ block.super }}   #}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+
+{% block branding %}
+  <h1 id="site-name">
+    <a href="{% url 'admin:index' %}">My Store Admin Portal</a>
+  </h1>
+{% endblock %}
+
+
+{% block content %}
+  <div class="login-wrapper">
+    {{ block.super }}
+  </div>
+{% endblock %}
